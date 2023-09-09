@@ -6,35 +6,54 @@ export class FeedbackCounter extends Component {
     goodValue: 0,
     neutralValue: 0,
     badValue: 0,
+    total: 0,
+    positive: 0,
   };
 
   handleClick = event => {
-    // this.setState({ value: 7 });
     this.setState(prevState => {
-      console.log(prevState);
       return { goodValue: prevState.goodValue + 1 };
     });
   };
 
   neutralHandleClick = event => {
     this.setState(prevState => {
-      console.log(prevState);
       return { neutralValue: prevState.neutralValue + 1 };
     });
   };
 
   badHandleClick = event => {
     this.setState(prevState => {
-      console.log(prevState);
       return { badValue: prevState.badValue + 1 };
     });
+  };
+
+  countTotalFeedback = e => {
+    this.setState(state => {
+      return { total: state.goodValue + state.neutralValue + state.badValue };
+    });
+  };
+
+  countPositiveFeedbackPercentage = e => {
+    this.setState(state => {
+      return {
+        positive:
+          (state.goodValue * 100) /
+          (state.goodValue + state.neutralValue + state.badValue),
+      };
+    });
+  };
+
+  totalPlusPercent = e => {
+    this.countTotalFeedback();
+    this.countPositiveFeedbackPercentage();
   };
 
   render() {
     return (
       <FeedbackSection>
         <h1>Please leave feedback</h1>
-        <div>
+        <div onClick={this.totalPlusPercent}>
           <button onClick={this.handleClick}>good</button>
           <button onClick={this.neutralHandleClick}>neutral</button>
           <button onClick={this.badHandleClick}>bad</button>
@@ -51,6 +70,15 @@ export class FeedbackCounter extends Component {
         <div>
           <p>Bad:</p>
           <span>{this.state.badValue}</span>
+        </div>
+
+        <div>
+          <p>Total:</p>
+          <span>{this.state.total}</span>
+        </div>
+        <div>
+          <p>Positive feedback:</p>
+          <span>{Math.round(this.state.positive)} %</span>
         </div>
       </FeedbackSection>
     );
