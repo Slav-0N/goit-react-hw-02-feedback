@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { FeedbackSection } from './Feedback.styled';
+import Statistics from './Statistics/Statistics';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Section from './Section/Section';
 
 export class FeedbackCounter extends Component {
   state = {
@@ -51,36 +53,22 @@ export class FeedbackCounter extends Component {
 
   render() {
     return (
-      <FeedbackSection>
-        <h1>Please leave feedback</h1>
-        <div onClick={this.totalPlusPercent}>
-          <button onClick={this.handleClick}>good</button>
-          <button onClick={this.neutralHandleClick}>neutral</button>
-          <button onClick={this.badHandleClick}>bad</button>
-        </div>
-        <h2>Statistics</h2>
-        <div>
-          <p>Good:</p>
-          <span>{this.state.goodValue}</span>
-        </div>
-        <div>
-          <p>Neutral:</p>
-          <span>{this.state.neutralValue}</span>
-        </div>
-        <div>
-          <p>Bad:</p>
-          <span>{this.state.badValue}</span>
-        </div>
+      <Section>
+        <FeedbackOptions
+          totalPlusPercent={this.totalPlusPercent}
+          handleClick={this.handleClick}
+          neutralHandleClick={this.neutralHandleClick}
+          badHandleClick={this.badHandleClick}
+        />
 
-        <div>
-          <p>Total:</p>
-          <span>{this.state.total}</span>
-        </div>
-        <div>
-          <p>Positive feedback:</p>
-          <span>{Math.round(this.state.positive)} %</span>
-        </div>
-      </FeedbackSection>
+        <Statistics
+          goodValue={this.state.goodValue}
+          neutralValue={this.state.neutralValue}
+          badValue={this.state.badValue}
+          total={this.state.total}
+          positive={Math.round(this.state.positive)}
+        />
+      </Section>
     );
   }
 }
