@@ -2,8 +2,9 @@ import { Component } from 'react';
 import Statistics from './Statistics/Statistics';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Section from './Section/Section';
+import Notification from './Notification/Notification';
 
-export class FeedbackCounter extends Component {
+export class App extends Component {
   state = {
     goodValue: 0,
     neutralValue: 0,
@@ -61,13 +62,17 @@ export class FeedbackCounter extends Component {
           badHandleClick={this.badHandleClick}
         />
 
-        <Statistics
-          goodValue={this.state.goodValue}
-          neutralValue={this.state.neutralValue}
-          badValue={this.state.badValue}
-          total={this.state.total}
-          positive={Math.round(this.state.positive)}
-        />
+        {this.state.total > 0 ? (
+          <Statistics
+            goodValue={this.state.goodValue}
+            neutralValue={this.state.neutralValue}
+            badValue={this.state.badValue}
+            total={this.state.total}
+            positive={Math.round(this.state.positive)}
+          />
+        ) : (
+          <Notification message="Тут немає відгуків." />
+        )}
       </Section>
     );
   }
