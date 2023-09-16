@@ -11,6 +11,7 @@ const ButtonWrapper = styled.div`
     width: 60px;
     margin: 0 auto;
     margin-bottom: 30px;
+    text-transform: capitalize;
 
     box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
