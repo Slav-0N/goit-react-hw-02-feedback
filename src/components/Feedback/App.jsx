@@ -6,69 +6,52 @@ import Notification from './Notification/Notification';
 
 export class App extends Component {
   state = {
-    goodValue: 0,
-    neutralValue: 0,
-    badValue: 0,
-    total: 0,
-    positive: 0,
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
 
-  handleClick = event => {
+  onLeaveFeedback = option => {
     this.setState(prevState => {
-      return { goodValue: prevState.goodValue + 1 };
+      return { [option]: prevState[option] + 1 };
     });
   };
 
-  neutralHandleClick = event => {
-    this.setState(prevState => {
-      return { neutralValue: prevState.neutralValue + 1 };
-    });
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+
+    return good + neutral + bad;
   };
 
-  badHandleClick = event => {
-    this.setState(prevState => {
-      return { badValue: prevState.badValue + 1 };
-    });
+  countPositiveFeedbackPercentage = () => {
+    const { good } = this.state;
+    return Math.ceil((good * 100) / this.countTotalFeedback()) || 0;
   };
 
-  countTotalFeedback = e => {
-    this.setState(state => {
-      return { total: state.goodValue + state.neutralValue + state.badValue };
-    });
-  };
-
-  countPositiveFeedbackPercentage = e => {
-    this.setState(state => {
-      return {
-        positive:
-          (state.goodValue * 100) /
-          (state.goodValue + state.neutralValue + state.badValue),
-      };
-    });
-  };
-
-  totalPlusPercent = e => {
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  };
+  // totalPlusPercent = e => {
+  //   this.countTotalFeedback();
+  //   this.countPositiveFeedbackPercentage();
+  // };
 
   render() {
+    const { good, neutral, bad } = this.state;
+    const totalVouts = this.countTotalFeedback();
+    const positive = this.countPositiveFeedbackPercentage();
+
     return (
       <Section>
         <FeedbackOptions
-          totalPlusPercent={this.totalPlusPercent}
-          handleClick={this.handleClick}
-          neutralHandleClick={this.neutralHandleClick}
-          badHandleClick={this.badHandleClick}
+          options={Object.keys(this.state)}
+          onLeaveFeedback={this.onLeaveFeedback}
         />
 
-        {this.state.total > 0 ? (
+        {totalVouts > 0 ? (
           <Statistics
-            goodValue={this.state.goodValue}
-            neutralValue={this.state.neutralValue}
-            badValue={this.state.badValue}
-            total={this.state.total}
-            positive={Math.round(this.state.positive)}
+            goodValue={good}
+            neutralValue={neutral}
+            badValue={bad}
+            total={totalVouts}
+            positive={Math.round(positive)}
           />
         ) : (
           <Notification message="Тут немає відгуків." />

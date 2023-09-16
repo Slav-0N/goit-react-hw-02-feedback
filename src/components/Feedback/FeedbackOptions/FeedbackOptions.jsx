@@ -1,19 +1,22 @@
 import React from 'react';
 import ButtonWrapper from './FeedbackOptions.styled';
 
-const FeedbackOptions = ({
-  totalPlusPercent,
-  handleClick,
-  neutralHandleClick,
-  badHandleClick,
-}) => {
+const FeedbackOptions = ({ onLeaveFeedback, options }) => {
   return (
-    <ButtonWrapper onClick={totalPlusPercent}>
-      <button onClick={handleClick}>good</button>
-      <button onClick={neutralHandleClick}>neutral</button>
-      <button onClick={badHandleClick}>bad</button>
+    <ButtonWrapper>
+      {options.map(option => {
+        return (
+          <button
+            key={option}
+            onClick={() => {
+              onLeaveFeedback(option);
+            }}
+          >
+            {option}
+          </button>
+        );
+      })}
     </ButtonWrapper>
   );
 };
-
 export default FeedbackOptions;
